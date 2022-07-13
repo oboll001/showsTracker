@@ -3,9 +3,8 @@ package com.cognixia.jump.menu;
 import java.util.Scanner;
 
 public class Menu {
-
     public static void main(String[] args){
-
+    
         int selection;
         try{
             Scanner input = new Scanner(System.in);
@@ -35,5 +34,4 @@ public class Menu {
             System.out.println("You didn't enter an integer.");
             }
     }
-
 }
