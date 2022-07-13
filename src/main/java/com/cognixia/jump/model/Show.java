@@ -40,12 +40,6 @@ public class Show {
     public String toString() {
         return "Show [num_of_episodes=" + num_of_episodes + ", show_name=" + show_name + ", show_rating=" + show_rating
                 + "]";
-    } 
+    }
 
-    
-
-    
-
-    
-    
 }
