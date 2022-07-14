@@ -3,19 +3,21 @@ package com.cognixia.jump.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Types;
 import java.util.LinkedList;
 import java.util.List;
 
 import com.cognixia.jump.connection.ConnectionManager;
+import com.cognixia.jump.connection.ConnectionManagerwithProps;
 import com.cognixia.jump.exception.PWLimitException;
+import com.cognixia.jump.model.ShowsWatched;
 import com.cognixia.jump.model.User;
 
 public class UserDAO implements DAO<User> {
 
-    private Connection conn = ConnectionManager.getConnection();
+    private Connection conn = ConnectionManagerwithProps.getConnection();
 
-    // @shem, your findall method is commended at the end of the page
 
     @Override
     public User findbyId(long user_id) {
@@ -50,6 +52,51 @@ public class UserDAO implements DAO<User> {
         return users;
     }
 
+    public User findbyUser(String user_name) {
+
+        Boolean bool = false;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String query = "";
+        User users = null;
+
+        try {
+
+            query = "select * from Users where user_name = ?";
+            pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, user_name);
+
+            rs = pstmt.executeQuery();
+
+            // (rs.getString("user_name") != null)
+            if (rs != null) {
+                rs.next();
+                bool = true;
+                users = new User(0, query, query, query, query);
+                users.setUserId(rs.getInt(1));
+                users.setFirstName(rs.getString(2));
+                users.setLastName(rs.getString(3));
+                users.setUserName(rs.getString(4));
+                users.setPassword(rs.getString(5));
+                
+              
+            }
+
+        }  catch (SQLException e) {
+            System.out.println("Username not found in database.");
+            // e.printStackTrace();
+
+        }
+            catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return users;
+        
+    }
+
+   
+
     @Override
     public List<User> findAll() {
         // TODO Auto-generated method stub
@@ -73,7 +120,13 @@ public class UserDAO implements DAO<User> {
         // TODO Auto-generated method stub
         return false;
     }
+
+
+
+   
 }
+
+
 
 // pstmt = conn.prepareStatement(query);
 // pstmt.setLong(1, user_id);
