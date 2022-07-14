@@ -7,6 +7,8 @@ public interface DAO<T extends Serializable> {
     // get one by id
     T findbyId(long id);
 
+    
+
     // get all
     List<T> findAll();
 
