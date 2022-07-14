@@ -11,7 +11,7 @@ public interface DAO<T extends Serializable> {
     
 
     // get all
-    List<T> findAll();
+    List<T> findAll(long id);
 
     // add to db
     boolean create(T entity);

@@ -97,29 +97,35 @@ public class UserDAO implements DAO<User> {
 
    
 
-    @Override
-    public List<User> findAll() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+    // @Override
+    // public List<User> findAll() {
+    //     // TODO Auto-generated method stub
+    //     return null;
+    // }
 
-    @Override
-    public boolean create(User entity) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    // @Override
+    // public boolean create(User entity) {
+    //     // TODO Auto-generated method stub
+    //     return false;
+    // }
 
-    @Override
-    public boolean update(User entity) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    // @Override
+    // public boolean update(User entity) {
+    //     // TODO Auto-generated method stub
+    //     return false;
+    // }
 
-    @Override
-    public boolean deleteById(long id) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    // @Override
+    // public boolean deleteById(long id) {
+    //     // TODO Auto-generated method stub
+    //     return false;
+    // }
+
+    // @Override
+    // public List<User> findAll(long id) {
+    //     // TODO Auto-generated method stub
+    //     return null;
+    // }
 
 
 
