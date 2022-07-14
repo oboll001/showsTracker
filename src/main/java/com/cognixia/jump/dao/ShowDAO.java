@@ -3,10 +3,13 @@ package com.cognixia.jump.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.cognixia.jump.connection.ConnectionManagerwithProps;
 import com.cognixia.jump.model.Show;
+
 
 public class ShowDAO implements DAO<Show> {
 
@@ -59,8 +62,35 @@ public class ShowDAO implements DAO<Show> {
 
 
     @Override
-    public List<Show> findAll(long id) {
-        // TODO Auto-generated method stub
+    public List<Show> findAll(long user_id) {
+
+        try {
+
+        Statement stmt = (Statement) conn.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM shows.shows_watched);
+
+            List<Show> showList = new ArrayList<Show>();
+
+            //rs.first();
+
+            while(rs.next()) {
+                // ...iterate through to get column info...
+                String show_name = rs.getString("show_name");
+                int num_of_episodes = rs.getInt("num_of_episodes");
+                int show_rating = rs.getInt("show_rating");
+
+                // ...then add them to a list...
+                Show show = new Show(show_name, num_of_episodes,show_rating);
+                showList.add(show);
+            }
+
+            // ...and return that list once finished
+            return showList;
+
+        } catch (SQLException e) {
+            System.out.println("Could not retrieve list of shows from database");
+        }
+        
         return null;
     }
 
