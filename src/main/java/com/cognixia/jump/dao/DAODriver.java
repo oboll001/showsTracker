@@ -1,20 +1,27 @@
 package com.cognixia.jump.dao;
 
-import java.sql.SQLException;
+
 import java.util.List;
 import java.util.Scanner;
 
+
 import com.cognixia.jump.menu.LoginServlet;
+import com.cognixia.jump.model.Show;
 import com.cognixia.jump.model.ShowsWatched;
 import com.cognixia.jump.model.User;
 
 public class DAODriver extends LoginServlet {
 
+  
+
     public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
         SWDAO swDAO = new SWDAO();
+        ShowDAO showDAO = new ShowDAO();
 
         Scanner input = new Scanner(System.in);
+
+       
 
         
         
@@ -40,25 +47,30 @@ public class DAODriver extends LoginServlet {
                     do {
                         System.out.println("1. View WatchList");
                         System.out.println("2. Update Episode Count");
+                        System.out.println("0. Exit");
                         System.out.println("Choose Option:");
                         selection = input.nextInt();
-                                                
+
 
                         switch (selection)
                         {
                             case 1:
                                 System.out.println("View WatchList.");
-                                ShowsWatched showTest = swDAO.findbyId(input.nextInt());
+                                System.out.println(userTest.getUserId());
+                                List<ShowsWatched> showTest = (List<ShowsWatched>) swDAO.findAll(userTest.getUserId());
+                                
                                 System.out.println(showTest);
+                                
+                                
                                 break;
 
                             case 2:
-                                System.out.println("Update Episode Count");
+                                System.out.println("Update WatchList.");
+                                // Show shows = showDAO.findbyShow(shows.getShow_name());
+                                // System.out.println(shows);
 
-                                break;
-
-                            case 3:
-                                System.out.println("Exit.");
+                                
+                                
 
                                 break;
 
@@ -87,6 +99,10 @@ public class DAODriver extends LoginServlet {
         // showsWatched table and possibly plus
         // other records such as name and username
 
+    }
+
+    private static String getShow_name() {
+        return null;
     }
 
 }
