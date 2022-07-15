@@ -1,5 +1,7 @@
 package com.cognixia.jump.dao;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,7 +53,79 @@ public class SWDAO implements DAO<ShowsWatched> {
     }
 
     @Override
-    public List<ShowsWatched> findAll(long user_id) {
+    public List<ShowsWatched> findAll() {
+
+        List<ShowsWatched> showswatched = new ArrayList<ShowsWatched>();
+
+
+        try {
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM shows.shows_watched");
+
+            List<ShowsWatched> showList = new ArrayList<ShowsWatched>();
+
+            // rs.first();
+
+            while (rs.next()) {
+                // iterate to get column info
+                int id = rs.getInt("user_id");
+                String show_name = rs.getString("show_name");
+                int episodes_watched = rs.getInt("episodes_watched");
+
+                // add them to a list...
+                ShowsWatched show = new ShowsWatched(id, show_name, episodes_watched);
+                showList.add(show);
+            }
+
+            // return that list once finished
+            return showList;
+
+        } catch (SQLException e) {
+            System.out.println("Could not retrieve list of shows from database");
+        }
+        return showswatched;
+
+        // return null;
+    }
+
+    public ShowsWatched findbyShow(String show_name) {
+
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        String query = "";
+        ShowsWatched showsw = null;
+
+        try {
+
+            query = "select * from shows_watched where show_name = ?";
+            pstmt = conn.prepareStatement(query);
+            pstmt.setString(1, show_name);
+
+            rs = pstmt.executeQuery();
+
+            
+
+                if (rs != null) {
+                    rs.next();
+                    showsw = new ShowsWatched(0, query, 0);
+                    showsw.setUserId(rs.getInt(1));
+                    showsw.setShow_name(rs.getString(2));
+                    showsw.setEpisodes_watched(rs.getInt(3));
+                }
+
+            
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return showsw;
+
+    }
+
+    @Override
+    public List<ShowsWatched> findAllbyId(long user_id) {
 
         try {
 
@@ -63,24 +137,25 @@ public class SWDAO implements DAO<ShowsWatched> {
             // rs.first();
 
             while (rs.next()) {
-                // ...iterate through to get column info...
+                // iterate to get column info
                 int id = rs.getInt("user_id");
                 String show_name = rs.getString("show_name");
                 int episodes_watched = rs.getInt("episodes_watched");
 
-                // ...then add them to a list...
+                // add them to a list...
                 ShowsWatched show = new ShowsWatched(id, show_name, episodes_watched);
                 showList.add(show);
             }
 
-            // ...and return that list once finished
+            // return that list once finished
             return showList;
 
         } catch (SQLException e) {
             System.out.println("Could not retrieve list of shows from database");
         }
-
         return null;
+
+        
     }
 
     @Override
@@ -90,19 +165,32 @@ public class SWDAO implements DAO<ShowsWatched> {
     }
 
     @Override
-    public boolean update(ShowsWatched entity) {
+    public boolean update() {
         try {
-            String query = "UPDATE shows_watched SET episodes_watched = ? where show_name =";
+            String query = "UPDATE shows_watched SET episodes_watched = ? WHERE user_id = ? AND show_name = ?";
+            
+            BufferedReader bufferedReader = new BufferedReader (new InputStreamReader(System.in));
+
+            System.out.println("Enter episodes watched: ");
+            int ew = Integer.parseInt(bufferedReader.readLine());
+
+            System.out.println("Enter the userID: ");
+            int uid = Integer.parseInt(bufferedReader.readLine());
+
+            System.out.println("Enter the show: ");
+            String sn = bufferedReader.readLine();
+
+            
             PreparedStatement pstmt = conn.prepareStatement(query);
 
-            pstmt.setInt(1, entity.getUserId());
-            pstmt.setString(2, entity.getShow_name());
-            pstmt.setInt(3, entity.getEpisodes_watched());
-
+            pstmt.setInt(1, ew);
+            pstmt.setInt(2, uid);
+            pstmt.setString(3, sn);
+            
             int numUpdates = pstmt.executeUpdate();
 
             if (numUpdates > 0) {
-                System.out.println("Entity " + entity + " updated in db.");
+                System.out.println("Episode count has been updated in database.");
                 return true;
             }
 

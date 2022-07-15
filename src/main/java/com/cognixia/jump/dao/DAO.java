@@ -11,12 +11,16 @@ public interface DAO<T extends Serializable> {
     
 
     // get all
-    List<T> findAll(long id);
+    List<T> findAllbyId(long id);
+
+    List<T> findAll();
 
     // add to db
     boolean create(T entity);
 
-    boolean update(T entity);
+    boolean update();
+
+    // boolean update(T entity);
 
     boolean deleteById(long id);
 }

@@ -24,7 +24,7 @@ public class DAODriver {
 
         User userTest = userDAO.findbyUser(input.nextLine());
 
-        System.out.println(userTest);
+        // System.out.println(userTest);
 
         if (userTest.getUserId() == (0)) {
             System.out.println("User Not Found.");
@@ -49,23 +49,57 @@ public class DAODriver {
                         switch (selection) {
                             case 1:
                                 System.out.println("View WatchList.");
-                                System.out.println(userTest.getUserId());
-                                List<ShowsWatched> showTest = new ArrayList<ShowsWatched>();
-                                showTest = Arrays.asList(swDAO.findbyId(userTest.getUserId()));
+                                System.out.println("");
+                                // System.out.println(userTest.getUserId());
 
-                                for (int i = 0; i < showTest.size(); i++) {
-                                    System.out.println(showTest.get(i));
-                                }
+                                // List<ShowsWatched> showTest = swDAO.findAll(userTest.getUserId());
+                                // List<ShowsWatched> showTest = new ArrayList<ShowsWatched>();
+                                // showTest = Arrays.asList(swDAO.findbyId(userTest.getUserId()));
 
-                                System.out.println(showTest);
+                                // for (int i = 0; i < showTest.size(); i++) {
+                                //     System.out.println(showTest.get(i));
+                                // }
+
+                                // System.out.println(showTest);
+                                List<ShowsWatched> showTest = swDAO.findAllbyId(userTest.getUserId());
+
+                                
+                                for(ShowsWatched sw : showTest){
+                                    System.out.println("Show: " + sw.getShow_name() + " " + "| Episodes Watched: " + sw.getEpisodes_watched());
+                                } 
+                            
+                                System.out.println("");
+
 
                                 break;
+                                
 
                             case 2:
                                 System.out.println("Update WatchList.");
                                 // Show shows = showDAO.findbyShow(shows.getShow_name());
                                 // System.out.println(shows);
                                 // List<Show> shows =
+
+                                // ShowsWatched showUpdate = new ShowsWatched(userId, show_name, episodes_watched);
+
+                               
+                                // Scanner upd = new Scanner(System.in);
+
+                                System.out.println("Your login information is: " + userTest +  "| Please enter show you want to update.");
+
+                                swDAO.update();
+                                
+
+                                // ShowsWatched showTest2 = swDAO.findbyShow(upd.nextLine());
+
+                               
+                                
+                                // if (showTest2.getUserId() == (0)) {
+                                //     System.out.println("User does not have this show in WatchList.");
+                                // } else {
+                                //     System.out.println("Enter updated episode count.");
+                                // }
+
 
                                 break;
 
@@ -76,7 +110,7 @@ public class DAODriver {
                     } while (selection != 0);
 
                 } catch (Exception e) {
-                    System.out.println("message");
+                    System.out.println("Error.");
                 }
             }
 
