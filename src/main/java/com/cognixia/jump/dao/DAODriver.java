@@ -5,13 +5,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+import com.cognixia.jump.exception.PWLimitException;
 import com.cognixia.jump.model.Show;
 import com.cognixia.jump.model.ShowsWatched;
 import com.cognixia.jump.model.User;
 
 public class DAODriver {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws PWLimitException {
         UserDAO userDAO = new UserDAO();
         SWDAO swDAO = new SWDAO();
         // ShowDAO showDAO = new ShowDAO();
@@ -29,6 +30,9 @@ public class DAODriver {
             System.out.println("User Not Found.");
         } else {
             System.out.println("Password: ");
+            if (userTest.getPassword().length() < 4) {
+                throw new PWLimitException("Password must be at least 4 characters long.");
+            }
             if (userTest.getPassword().equals(input.nextLine())) {
                 System.out.println("Confirmed");
                 try {
