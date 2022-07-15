@@ -1,38 +1,29 @@
 package com.cognixia.jump.dao;
 
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-
-import com.cognixia.jump.menu.LoginServlet;
 import com.cognixia.jump.model.Show;
 import com.cognixia.jump.model.ShowsWatched;
 import com.cognixia.jump.model.User;
 
-public class DAODriver extends LoginServlet {
-
-  
+public class DAODriver {
 
     public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
         SWDAO swDAO = new SWDAO();
-        ShowDAO showDAO = new ShowDAO();
+        // ShowDAO showDAO = new ShowDAO();
 
         Scanner input = new Scanner(System.in);
 
-       
-
-        
-        
-       
         // System.out.println("Enter Login Information: ");
         System.out.println("Username: ");
-        
+
         User userTest = userDAO.findbyUser(input.nextLine());
-       
+
         System.out.println(userTest);
-       
 
         if (userTest.getUserId() == (0)) {
             System.out.println("User Not Found.");
@@ -51,32 +42,31 @@ public class DAODriver extends LoginServlet {
                         System.out.println("Choose Option:");
                         selection = input.nextInt();
 
-
-                        switch (selection)
-                        {
+                        switch (selection) {
                             case 1:
                                 System.out.println("View WatchList.");
                                 System.out.println(userTest.getUserId());
-                                List<ShowsWatched> showTest = (List<ShowsWatched>) swDAO.findAll(userTest.getUserId());
-                                
+                                List<ShowsWatched> showTest = new ArrayList<ShowsWatched>();
+                                showTest = Arrays.asList(swDAO.findbyId(userTest.getUserId()));
+
+                                for (int i = 0; i < showTest.size(); i++) {
+                                    System.out.println(showTest.get(i));
+                                }
+
                                 System.out.println(showTest);
-                                
-                                
+
                                 break;
 
                             case 2:
                                 System.out.println("Update WatchList.");
                                 // Show shows = showDAO.findbyShow(shows.getShow_name());
                                 // System.out.println(shows);
-
-                                
-                                
-                                
+                                // List<Show> shows =
 
                                 break;
 
                             default:
-                                System.out.println("Must enter number.");
+                                System.out.println("Goodbye!");
                         }
 
                     } while (selection != 0);

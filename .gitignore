@@ -1,3 +1,4 @@
+
 <<<<<<< HEAD
 ##############################
 ## Java
@@ -9,6 +10,8 @@
 *.ear
 *.nar
 hs_err_pid*
+<<<<<<< HEAD
+=======
 
 ##############################
 ## Maven
@@ -84,13 +87,4 @@ nb-configuration.xml
 ##############################
 .DS_Store
 =======
-/target/
 
-.metadata
-
-.settings
-
-.classpath
-
-.project
->>>>>>> 0d9bc173ce38de279f95fa9eb6a5d0deae4bd9dd

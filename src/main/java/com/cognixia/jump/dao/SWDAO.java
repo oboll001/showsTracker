@@ -10,16 +10,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.cognixia.jump.connection.ConnectionManager;
 import com.cognixia.jump.connection.ConnectionManagerwithProps;
 import com.cognixia.jump.exception.PWLimitException;
 import com.cognixia.jump.model.ShowsWatched;
 
-
-
 // shows watched dao
 public class SWDAO implements DAO<ShowsWatched> {
-    
+
     private Connection conn = ConnectionManagerwithProps.getConnection();
 
     @Override
@@ -58,14 +55,14 @@ public class SWDAO implements DAO<ShowsWatched> {
 
         try {
 
-        Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM shows.shows_watched where user_id = " + user_id);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM shows.shows_watched where user_id = " + user_id);
 
             List<ShowsWatched> showList = new ArrayList<ShowsWatched>();
 
-            //rs.first();
+            // rs.first();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 // ...iterate through to get column info...
                 int id = rs.getInt("user_id");
                 String show_name = rs.getString("show_name");
@@ -82,7 +79,7 @@ public class SWDAO implements DAO<ShowsWatched> {
         } catch (SQLException e) {
             System.out.println("Could not retrieve list of shows from database");
         }
-        
+
         return null;
     }
 
@@ -95,35 +92,30 @@ public class SWDAO implements DAO<ShowsWatched> {
     @Override
     public boolean update(ShowsWatched entity) {
         try {
-			String query = "UPDATE shows_watched SET episodes_watched = ? where show_name =";
-			PreparedStatement pstmt = conn.prepareStatement(query);
-			
-			pstmt.setInt(1, entity.getUserId());
-			pstmt.setString(2, entity.getShow_name());
-			pstmt.setInt(3,  entity.getEpisodes_watched());
-			
-			int numUpdates = pstmt.executeUpdate();
-			
-			if (numUpdates > 0) {
-				System.out.println("Entity " + entity + " updated in db.");
-				return true;
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-    
+            String query = "UPDATE shows_watched SET episodes_watched = ? where show_name =";
+            PreparedStatement pstmt = conn.prepareStatement(query);
+
+            pstmt.setInt(1, entity.getUserId());
+            pstmt.setString(2, entity.getShow_name());
+            pstmt.setInt(3, entity.getEpisodes_watched());
+
+            int numUpdates = pstmt.executeUpdate();
+
+            if (numUpdates > 0) {
+                System.out.println("Entity " + entity + " updated in db.");
+                return true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     @Override
     public boolean deleteById(long id) {
         // TODO Auto-generated method stub
         return false;
     }
-
-
-   
-    
 
 }
