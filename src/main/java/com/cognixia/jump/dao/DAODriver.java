@@ -1,19 +1,20 @@
 package com.cognixia.jump.dao;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import com.cognixia.jump.exception.PWLimitException;
-import com.cognixia.jump.menu.LoginServlet;
+import com.cognixia.jump.model.Show;
 import com.cognixia.jump.model.ShowsWatched;
 import com.cognixia.jump.model.User;
 
-public class DAODriver extends LoginServlet {
+public class DAODriver {
 
-    public static void main(String[] args) throws PWLimitException {
+    public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
         SWDAO swDAO = new SWDAO();
+        // ShowDAO showDAO = new ShowDAO();
 
         Scanner input = new Scanner(System.in);
 
@@ -28,14 +29,6 @@ public class DAODriver extends LoginServlet {
             System.out.println("User Not Found.");
         } else {
             System.out.println("Password: ");
-            try {
-                if (userTest.getPassword().length() < 4) {
-                    throw new PWLimitException("Password is not at least 4 characters long");
-                }
-            } catch (PWLimitException e) {
-                e.getMessage();
-            }
-
             if (userTest.getPassword().equals(input.nextLine())) {
                 System.out.println("Confirmed");
                 try {
@@ -45,28 +38,35 @@ public class DAODriver extends LoginServlet {
                     do {
                         System.out.println("1. View WatchList");
                         System.out.println("2. Update Episode Count");
+                        System.out.println("0. Exit");
                         System.out.println("Choose Option:");
                         selection = input.nextInt();
 
                         switch (selection) {
                             case 1:
                                 System.out.println("View WatchList.");
-                                ShowsWatched showTest = swDAO.findbyId(input.nextInt());
+                                System.out.println(userTest.getUserId());
+                                List<ShowsWatched> showTest = new ArrayList<ShowsWatched>();
+                                showTest = Arrays.asList(swDAO.findbyId(userTest.getUserId()));
+
+                                for (int i = 0; i < showTest.size(); i++) {
+                                    System.out.println(showTest.get(i));
+                                }
+
                                 System.out.println(showTest);
+
                                 break;
 
                             case 2:
-                                System.out.println("Update Episode Count");
-
-                                break;
-
-                            case 3:
-                                System.out.println("Exit.");
+                                System.out.println("Update WatchList.");
+                                // Show shows = showDAO.findbyShow(shows.getShow_name());
+                                // System.out.println(shows);
+                                // List<Show> shows =
 
                                 break;
 
                             default:
-                                System.out.println("Must enter number.");
+                                System.out.println("Goodbye!");
                         }
 
                     } while (selection != 0);
@@ -75,6 +75,25 @@ public class DAODriver extends LoginServlet {
                     System.out.println("message");
                 }
             }
+
+            else {
+                System.out.println("Denied");
+            }
         }
+
+        // System.out.println(userDAO.findbyPassword(input.nextLine()));
+
+        // System.out.println("Enter user_id: ");
+        // System.out.println(userDAO.findbyId(input.nextInt()));
+
+        // I'm thinking we can have it to when we enter the userid, it will return the
+        // showsWatched table and possibly plus
+        // other records such as name and username
+
     }
+
+    private static String getShow_name() {
+        return null;
+    }
+
 }

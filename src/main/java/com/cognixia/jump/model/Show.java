@@ -1,6 +1,8 @@
 package com.cognixia.jump.model;
 
-public class Show {
+import java.io.Serializable;
+
+public class Show implements Serializable {
 
     private String show_name;
     private int num_of_episodes;
