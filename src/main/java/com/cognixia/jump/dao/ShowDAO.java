@@ -55,7 +55,7 @@ public class ShowDAO implements DAO<Show> {
     }
 
     @Override
-    public List<Show> findAll(long user_id) {
+    public List<Show> findAll() {
 
         try {
 
